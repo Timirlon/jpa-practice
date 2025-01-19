@@ -6,6 +6,7 @@ target/
 ### excluded ###
 src/main/resources/META-INF
 .idea
+lib
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
