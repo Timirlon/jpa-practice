@@ -2,6 +2,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import model.Product;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ProductService {
@@ -20,7 +21,7 @@ public class ProductService {
         query.setParameter("max", max);
 
 
-        Product product = query.getSingleResult();
-        System.out.println(product);
+        List<Product> products = query.getResultList();
+        System.out.println(products);
     }
 }
