@@ -16,17 +16,18 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "options")
+public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
     String name;
 
-    @OneToMany(mappedBy = "category")
-    final Set<Product> products = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    Category category;
 
-    @OneToMany(mappedBy = "category")
-    final Set<Option> options = new HashSet<>();
+    @OneToMany(mappedBy = "option")
+    final Set<Value> values = new HashSet<>();
 }

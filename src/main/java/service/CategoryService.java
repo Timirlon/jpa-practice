@@ -1,3 +1,5 @@
+package service;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import model.Category;
@@ -64,8 +66,16 @@ public class CategoryService {
 
     // classwork
     public static void findAll(EntityManager entityManager) {
-        TypedQuery<Category> query = entityManager.createQuery("SELECT c FROM Category c", Category.class);
-        query.getResultList().forEach(System.out::println);
+        TypedQuery<Category> query = entityManager.createQuery("SELECT c FROM Category c ORDER BY c.id", Category.class);
+
+        query.getResultList()
+                .forEach(category -> {
+                    System.out.println(category.getId() + ". " + category.getName());
+                    category.getProducts().forEach(prod -> {
+                            System.out.println(prod.getName() + " " + prod.getPrice());
+                            prod.getValues().forEach(value -> System.out.println("- " + value.getOption().getName() + " " + value.getName()));
+                });
+                        });
     }
 
     public static void findById(EntityManager entityManager) {

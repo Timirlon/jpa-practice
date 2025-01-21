@@ -7,26 +7,25 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Getter
 @Setter
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "values")
+public class Value {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
     String name;
 
-    @OneToMany(mappedBy = "category")
-    final Set<Product> products = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    Product product;
 
-    @OneToMany(mappedBy = "category")
-    final Set<Option> options = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "option_id")
+    Option option;
 }

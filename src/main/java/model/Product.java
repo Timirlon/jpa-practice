@@ -7,6 +7,9 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @ToString
@@ -22,4 +25,11 @@ public class Product {
     String name;
 
     double price;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    Category category;
+
+    @OneToMany(mappedBy = "product")
+    final Set<Value> values = new HashSet<>();
 }

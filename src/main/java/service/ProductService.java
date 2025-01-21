@@ -1,3 +1,5 @@
+package service;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import model.Product;
