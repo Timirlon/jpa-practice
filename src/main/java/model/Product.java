@@ -7,9 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -33,6 +31,12 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     final Set<Value> values = new HashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    final Set<Review> reviews = new HashSet<>();
+
+    @ManyToMany
+    final List<Order> orders = new ArrayList<>();
 
     public void addValues(Collection<Value> values) {
         this.values.addAll(values);

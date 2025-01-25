@@ -7,6 +7,7 @@ target/
 src/main/resources/META-INF
 .idea
 lib
+server_ex.sql
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

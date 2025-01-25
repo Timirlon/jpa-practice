@@ -9,7 +9,7 @@ public class Main {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = factory.createEntityManager();
 
-        ProductService.create(entityManager);
+        ProductService.update(entityManager);
 
         entityManager.close();
 
