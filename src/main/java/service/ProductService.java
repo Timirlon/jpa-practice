@@ -43,12 +43,14 @@ public class ProductService {
         Product product = new Product();
         product.setName(productName);
         product.setPrice(price);
+        product.setCategory(category);
+
 
         List<Value> values = category.getOptions()
                 .stream()
-                .peek(option -> System.out.print(option.getName() + ": "))
                 .map(option -> {
-                    String valueName = scanner.nextLine();
+                    System.out.print(option.getName() + ": ");
+                    String valueName = scanner.next();
                     Value value = new Value();
 
                     value.setName(valueName);
@@ -63,18 +65,17 @@ public class ProductService {
         try {
 
             manager.getTransaction().begin();
-            manager.persist(category);
+            manager.persist(product);
             values.forEach(manager::persist);
 
             manager.getTransaction().commit();
 
             System.out.println("Товар создан");
-            System.out.println(category);
 
         } catch (Exception e) {
 
             manager.getTransaction().rollback();
-            System.out.println("Товар с таким названием уже существует.");
+            System.out.println(e.getMessage());
         }
     }
 }

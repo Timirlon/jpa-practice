@@ -40,10 +40,7 @@ public class CategoryService {
         System.out.print("Введите id: ");
         int id = scanner.nextInt();
 
-        Category category = entityManager.find(Category.class, id);
-        System.out.println(category);
-
-        return category;
+        return entityManager.find(Category.class, id);
     }
 
     public static void create(EntityManager manager) {
