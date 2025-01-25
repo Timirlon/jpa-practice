@@ -118,8 +118,13 @@ public class CategoryService {
             return;
         }
 
-        System.out.print("Введите новое название категории: ");
+        System.out.print("Введите новое название категории [" + category.getName() + "]: ");
         String name = scanner.next();
+
+        if (name.isBlank()) {
+            return;
+        }
+
         category.setName(name);
 
 

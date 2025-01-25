@@ -30,4 +30,8 @@ public class Option {
 
     @OneToMany(mappedBy = "option")
     final Set<Value> values = new HashSet<>();
+
+    public void addValue(Value value) {
+        values.add(value);
+    }
 }
