@@ -7,12 +7,9 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -31,7 +28,7 @@ public class User {
 
     String password;
 
-    @JoinColumn(name = "registration_date")
+    @Column(name = "registration_date")
     LocalDateTime registrationDate;
 
     @Enumerated(EnumType.STRING)
