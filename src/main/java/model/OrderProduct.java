@@ -11,9 +11,11 @@ public class OrderProduct {
     int id;
 
     @ManyToOne
+    @JoinColumn(name = "order_id")
     Order order;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     Product product;
 
     int quantity;

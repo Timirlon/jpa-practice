@@ -9,7 +9,9 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -36,8 +38,8 @@ public class User {
     Role role;
 
     @OneToMany(mappedBy = "client")
-    final Set<Order> orders = new HashSet<>();
+    final List<Order> orders = new ArrayList<>();
 
     @OneToMany(mappedBy = "reviewer")
-    final Set<Review> reviews = new HashSet<>();
+    final List<Review> reviews = new ArrayList<>();
 }

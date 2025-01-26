@@ -23,9 +23,11 @@ public class Review {
     int id;
 
     @ManyToOne
+    @JoinColumn(name = "reviewer_id")
     User reviewer;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     Product product;
 
     boolean approved;
@@ -34,6 +36,6 @@ public class Review {
 
     String text;
 
-    @JoinColumn(name = "publication_date")
+    @Column(name = "publication_date")
     LocalDate publicationDate;
 }

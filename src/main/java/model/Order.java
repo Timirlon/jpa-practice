@@ -26,17 +26,15 @@ public class Order {
     int id;
 
     @ManyToOne
+    @JoinColumn(name = "client_id")
     User client;
-
-    @ManyToMany
-    final List<Product> products = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     OrderStatus status;
 
     String address;
 
-    @JoinColumn(name = "order_date")
+    @Column(name = "order_date")
     LocalDateTime orderDate;
 
     @OneToMany(mappedBy = "order")

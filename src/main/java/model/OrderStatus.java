@@ -1,7 +1,14 @@
 package model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Getter
 public enum OrderStatus {
-    CREATED,
-    EN_ROUTE,
-    DELIVERED
+    CREATED("Создан"),
+    EN_ROUTE("В пути"),
+    DELIVERED("Доставлен");
+
+    private final String displayName;
 }

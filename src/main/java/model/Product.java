@@ -30,13 +30,13 @@ public class Product {
     Category category;
 
     @OneToMany(mappedBy = "product")
-    final Set<Value> values = new HashSet<>();
+    final List<Value> values = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    final Set<Review> reviews = new HashSet<>();
+    final List<Review> reviews = new ArrayList<>();
 
-    @ManyToMany
-    final List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    final List<OrderProduct> ordersProducts = new ArrayList<>();
 
     public void addValues(Collection<Value> values) {
         this.values.addAll(values);

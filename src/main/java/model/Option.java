@@ -7,7 +7,9 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -29,7 +31,7 @@ public class Option {
     Category category;
 
     @OneToMany(mappedBy = "option")
-    final Set<Value> values = new HashSet<>();
+    final List<Value> values = new ArrayList<>();
 
     public void addValue(Value value) {
         values.add(value);
