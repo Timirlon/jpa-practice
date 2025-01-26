@@ -8,6 +8,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +37,8 @@ public class Order {
     String address;
 
     @JoinColumn(name = "order_date")
-    LocalDate orderDate;
+    LocalDateTime orderDate;
+
+    @OneToMany(mappedBy = "order")
+    List<OrderProduct> orderProducts = new ArrayList<>();
 }

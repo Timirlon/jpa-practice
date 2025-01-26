@@ -8,6 +8,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class User {
     String password;
 
     @JoinColumn(name = "registration_date")
-    LocalDate registrationDate;
+    LocalDateTime registrationDate;
 
     @Enumerated(EnumType.STRING)
     Role role;

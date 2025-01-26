@@ -99,37 +99,35 @@ public class ProductService {
         manager.getTransaction().begin(); //open
 
         product.getCategory().getOptions()
-                .forEach(option -> {
-                    option.getValues()
-                            .stream()
-                            .filter(value -> value.getProduct().getId() == productId)
-                            .findFirst()
-                            .ifPresentOrElse(value -> {
-                                System.out.print(option.getName() + " [" + value.getName() + "]: ");
+                .forEach(option -> option.getValues()
+                        .stream()
+                        .filter(value -> value.getProduct().getId() == productId)
+                        .findFirst()
+                        .ifPresentOrElse(value -> {
+                            System.out.print(option.getName() + " [" + value.getName() + "]: ");
 
-                                String updValueName = scanner.nextLine();
+                            String updValueName = scanner.nextLine();
 
-                                if (!updValueName.isBlank()) {
-                                    value.setName(updValueName);
-                                }
-
-                                value.setProduct(product);
-                                value.setOption(option);
-
-                                manager.persist(value);
-                            }, () -> {
-                                System.out.print(option.getName() + " [null]: ");
-                                String updValueName = scanner.nextLine();
-
-                                Value value = new Value();
+                            if (!updValueName.isBlank()) {
                                 value.setName(updValueName);
-                                value.setProduct(product);
-                                value.setOption(option);
+                            }
 
-                                option.addValue(value);
-                                manager.persist(value);
-                            });
-                });
+                            value.setProduct(product);
+                            value.setOption(option);
+
+                            manager.persist(value);
+                        }, () -> {
+                            System.out.print(option.getName() + " [null]: ");
+                            String updValueName = scanner.nextLine();
+
+                            Value value = new Value();
+                            value.setName(updValueName);
+                            value.setProduct(product);
+                            value.setOption(option);
+
+                            option.addValue(value);
+                            manager.persist(value);
+                        }));
 
 
         try {
