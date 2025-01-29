@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import model.Role;
 import model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -17,7 +18,7 @@ public class UserService {
         String login = scanner.nextLine();
 
         System.out.print("Введите пароль: ");
-        String password = scanner.nextLine();
+        String password = BCrypt.hashpw(scanner.nextLine(), BCrypt.gensalt());
 
         User user = new User();
         user.setLogin(login);
@@ -45,12 +46,17 @@ public class UserService {
         System.out.print("Введите пароль: ");
         String password = scanner.nextLine();
 
-        TypedQuery<User> query = manager.createQuery("SELECT u FROM User u WHERE u.login = :login AND u.password = :password", User.class);
+        TypedQuery<User> query = manager.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class);
+
         query.setParameter("login", login);
-        query.setParameter("password", password);
 
         try {
             User user = query.getSingleResult();
+
+            if (!BCrypt.checkpw(password, user.getPassword())) {
+                throw new RuntimeException();
+            }
+
             System.out.println("Пользователь: " + user.getLogin());
             System.out.println("Дата регистрации: " + user.getRegistrationDate());
             System.out.println("Роль: " + user.getRole());
