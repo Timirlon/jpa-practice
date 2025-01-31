@@ -12,27 +12,54 @@ public class OrderService {
 
     public static void create(EntityManager manager) {
 
+        // 1 - авторизация (логин и пароль)
         User user = UserService.authorize(manager);
 
         if (user == null) {
             return;
         }
 
+        // 2 - вывод списка товаров
         System.out.println("Список товаров");
         ProductService.findAll(manager);
         System.out.println();
 
 
+        // 3 - товары
         System.out.println("Выберите товары: ");
-        String productIds = scanner.nextLine();
-        String[] strSplitIds = productIds.split(", ");
+        String strProductIds = scanner.nextLine();
+        String[] strSplitIds = strProductIds.split(", ");
 
-        List<Integer> splitIds = Arrays.stream(strSplitIds).map(Integer::parseInt).toList();
+        List<Integer> productIds = Arrays.stream(strSplitIds).map(Integer::parseInt).toList();
 
         TypedQuery<Product> query = manager.createQuery("SELECT p FROM Product p WHERE p.id = :id", Product.class);
 
+        Map<Product, Integer> prodQuantity = new HashMap<>();
+        List<Double> priceList = new ArrayList<>();
+
+        try {
+            productIds.forEach(id -> {
+                query.setParameter("id", id);
+
+                Product prod = query.getSingleResult();
+
+                if (prodQuantity.containsKey(prod)) {
+                    prodQuantity.put(prod, prodQuantity.get(prod) + 1);
+
+                } else {
+                    prodQuantity.put(prod, 1);
+                }
+
+                priceList.add(prod.getPrice());
+            });
+
+        } catch (Exception e) {
+            System.out.println("Ошибка с товарами.");
+            System.out.println(e.getMessage());
+        }
 
 
+        // 4 - адрес
         System.out.println("Введите адрес: ");
         String address = scanner.nextLine();
 
@@ -42,29 +69,11 @@ public class OrderService {
         order.setAddress(address);
         order.setOrderDate(LocalDateTime.now());
 
+
+        // 5 - persist
         try {
             manager.getTransaction().begin();
             manager.persist(order);
-
-            List<Product> productList = new ArrayList<>();
-
-            for (int i = 0; i < splitIds.size(); i++) {
-                query.setParameter("id", splitIds.get(i));
-
-                productList.add(query.getSingleResult());
-            }
-
-            Map<Product, Integer> prodQuantity = new HashMap<>();
-
-            productList.forEach(prod -> {
-
-                if (prodQuantity.containsKey(prod)) {
-                    prodQuantity.put(prod, prodQuantity.get(prod) + 1);
-                    return;
-                }
-
-                prodQuantity.put(prod, 1);
-            });
 
 
             for (Map.Entry<Product, Integer> entry : prodQuantity.entrySet()) {
@@ -84,9 +93,6 @@ public class OrderService {
             System.out.println("Заказ создан.");
             System.out.print("К оплате: ");
 
-            List<Double> priceList = productList.stream()
-                    .map(Product::getPrice)
-                    .toList();
 
             double sum = 0;
             for (int i = 0; i < priceList.size(); i++) {
