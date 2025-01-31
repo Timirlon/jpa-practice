@@ -63,6 +63,8 @@ public class OrderService {
         System.out.println("Введите адрес: ");
         String address = scanner.nextLine();
 
+
+        // 5 - persist
         Order order = new Order();
         order.setClient(user);
         order.setStatus(OrderStatus.CREATED);
@@ -70,7 +72,6 @@ public class OrderService {
         order.setOrderDate(LocalDateTime.now());
 
 
-        // 5 - persist
         try {
             manager.getTransaction().begin();
             manager.persist(order);
@@ -91,8 +92,9 @@ public class OrderService {
             manager.getTransaction().commit();
 
             System.out.println("Заказ создан.");
-            System.out.print("К оплате: ");
 
+            // 6 - вывод суммы заказа
+            System.out.print("К оплате: ");
 
             double sum = 0;
             for (int i = 0; i < priceList.size(); i++) {
