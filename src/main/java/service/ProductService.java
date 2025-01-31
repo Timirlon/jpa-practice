@@ -12,7 +12,14 @@ import java.util.Scanner;
 public class ProductService {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void findInRange(EntityManager manager) {
+    public static void findAll(EntityManager manager) {
+        TypedQuery<Product> query = manager.createQuery("SELECT p FROM Product p", Product.class);
+
+        query.getResultList()
+                .forEach(product -> System.out.println(product.getId() + ". " + product.getName() + " - " + product.getPrice()));
+    }
+
+    public static void findAllInRange(EntityManager manager) {
         System.out.println("Введите минимальное значение диапазона: ");
         double min = scanner.nextDouble();
 

@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class UserService {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void register(EntityManager manager) {
+    public static User register(EntityManager manager) {
         System.out.println("Регистрация");
         System.out.print("Введите логин: ");
         String login = scanner.nextLine();
@@ -32,13 +32,16 @@ public class UserService {
             manager.getTransaction().commit();
 
             System.out.println("Вы успешно зарегистрированы.");
+            return user;
+
         } catch (Exception e) {
             manager.getTransaction().rollback();
             System.out.println(e.getMessage());
+            return null;
         }
     }
 
-    public static void authorize(EntityManager manager) {
+    public static User authorize(EntityManager manager) {
         System.out.println("Авторизация");
         System.out.print("Введите логин: ");
         String login = scanner.nextLine();
@@ -63,8 +66,11 @@ public class UserService {
             System.out.println("Количество заказов: " + user.getOrders().size());
             System.out.println("Количество отзывов: " + user.getReviews().size());
 
+            return user;
+
         } catch (Exception e) {
             System.out.println("Ошибка авторизации. Неправильный логин или пароль.");
+            return null;
         }
     }
 }
